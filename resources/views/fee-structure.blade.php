@@ -245,42 +245,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($courses as $course)
                     <tr>
-                        <td class="course-name">Diploma in General Nursing</td>
-                        <td class="duration">3 Years</td>
-                        <td class="fee-amount">Rs. 150,000</td>
-                        <td>6 Semesters</td>
+                        <td class="course-name">{{ $course->title }}</td>
+                        <td class="duration">{{ $course->duration }}</td>
+                        <td class="fee-amount">Rs. {{ number_format($course->fee) }}</td>
+                        <td>
+                            @php
+                                // Calculate installments based on duration
+                                // Extract number from duration string (e.g., "3 Years" -> 3)
+                                preg_match('/(\d+)/', $course->duration, $matches);
+                                $years = isset($matches[1]) ? (int)$matches[1] : 1;
+                                $installments = $years * 2; // 2 semesters per year
+                            @endphp
+                            {{ $installments }} Semesters
+                        </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td class="course-name">Bachelor of Science in Nursing (BSN)</td>
-                        <td class="duration">4 Years</td>
-                        <td class="fee-amount">Rs. 200,000</td>
-                        <td>8 Semesters</td>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            <i class="fas fa-info-circle me-2"></i>No courses available at the moment.
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="course-name">Post Graduate Diploma in Nursing</td>
-                        <td class="duration">1 Year</td>
-                        <td class="fee-amount">Rs. 100,000</td>
-                        <td>2 Semesters</td>
-                    </tr>
-                    <tr>
-                        <td class="course-name">Community Health Nursing</td>
-                        <td class="duration">2 Years</td>
-                        <td class="fee-amount">Rs. 120,000</td>
-                        <td>4 Semesters</td>
-                    </tr>
-                    <tr>
-                        <td class="course-name">Midwifery Program</td>
-                        <td class="duration">2 Years</td>
-                        <td class="fee-amount">Rs. 130,000</td>
-                        <td>4 Semesters</td>
-                    </tr>
-                    <tr>
-                        <td class="course-name">Critical Care Nursing</td>
-                        <td class="duration">1 Year</td>
-                        <td class="fee-amount">Rs. 80,000</td>
-                        <td>2 Semesters</td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

@@ -42,17 +42,13 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Additional pages
-Route::get('/facilities', function () {
-    return view('facilities');
-})->name('facilities');
+Route::get('/facilities', [App\Http\Controllers\FacilityController::class, 'index'])->name('facilities');
 
 Route::get('/notifications', function () {
     return view('notifications');
 })->name('notifications');
 
-Route::get('/fee-structure', function () {
-    return view('fee-structure');
-})->name('fee-structure');
+Route::get('/fee-structure', [CourseController::class, 'feeStructure'])->name('fee-structure');
 
 Route::get('/scholarships', function () {
     return view('scholarships');

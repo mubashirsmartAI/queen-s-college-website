@@ -20,4 +20,22 @@ class Course extends Model
         'fee' => 'decimal:2',
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the full URL for the course image
+     */
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return asset('images/nursing-student.jpg');
+        }
+        
+        // If image path starts with 'courses/', prepend 'storage/'
+        if (str_starts_with($this->image, 'courses/')) {
+            return asset('storage/' . $this->image);
+        }
+        
+        // Otherwise, return as is (for old images in slider/ or other folders)
+        return asset($this->image);
+    }
 }

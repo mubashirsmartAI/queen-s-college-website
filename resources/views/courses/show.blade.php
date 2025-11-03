@@ -24,7 +24,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body p-5">
                         @if($course->image)
-                        <img src="{{ asset($course->image) }}" class="img-fluid rounded mb-4" alt="{{ $course->title }}">
+                        <img src="{{ $course->image_url }}" class="img-fluid rounded mb-4" alt="{{ $course->title }}">
                         @else
                         <img src="{{ asset('images/nursing-student.jpg') }}" class="img-fluid rounded mb-4" alt="{{ $course->title }}">
                         @endif
@@ -132,7 +132,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm">
                     @if($otherCourse->image)
-                    <img src="{{ asset($otherCourse->image) }}" class="card-img-top" alt="{{ $otherCourse->title }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ $otherCourse->image_url }}" class="card-img-top" alt="{{ $otherCourse->title }}" style="height: 200px; object-fit: cover;">
                     @else
                     <img src="{{ asset('images/nursing-student.jpg') }}" class="card-img-top" alt="{{ $otherCourse->title }}" style="height: 200px; object-fit: cover;">
                     @endif

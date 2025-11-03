@@ -47,7 +47,7 @@
                     <tr>
                         <td>
                             @if($course->image)
-                                <img src="{{ asset($course->image) }}" 
+                                <img src="{{ $course->image_url }}" 
                                      alt="{{ $course->title }}" 
                                      style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
                             @else

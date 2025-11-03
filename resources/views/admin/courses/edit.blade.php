@@ -168,7 +168,7 @@
             </div>
             <div class="card-body text-center">
                 @if($course->image)
-                    <img src="{{ asset($course->image) }}" 
+                    <img src="{{ $course->image_url }}" 
                          alt="{{ $course->title }}" 
                          class="img-fluid rounded mb-3" 
                          style="max-height: 200px; object-fit: cover;">

@@ -250,7 +250,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="course-card">
                     @if($course->image)
-                    <img src="{{ asset($course->image) }}" class="card-img-top" alt="{{ $course->title }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ $course->image_url }}" class="card-img-top" alt="{{ $course->title }}" style="height: 200px; object-fit: cover;">
                     @else
                     <img src="{{ asset('images/nursing-student.jpg') }}" class="card-img-top" alt="{{ $course->title }}" style="height: 200px; object-fit: cover;">
                     @endif

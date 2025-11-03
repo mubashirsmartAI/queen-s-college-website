@@ -194,62 +194,34 @@
 <section class="py-5">
     <div class="container">
         <h2 class="section-title">Our Facilities</h2>
+        
+        @if($facilities->count() > 0)
         <div class="row">
+            @foreach($facilities as $facility)
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="facility-card">
+                    @if($facility->image)
+                    <img src="{{ asset('storage/' . $facility->image) }}" 
+                         class="card-img-top" 
+                         alt="{{ $facility->name }}" 
+                         style="height: 200px; object-fit: cover;">
+                    @endif
                     <div class="card-body">
-                        <i class="fas fa-book fa-3x"></i>
-                        <h5>Library</h5>
-                        <p>Well-stocked library with thousands of medical and nursing books, journals, and digital resources.</p>
+                        <i class="{{ $facility->icon }} fa-3x"></i>
+                        <h5>{{ $facility->name }}</h5>
+                        <p>{{ $facility->description }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="facility-card">
-                    <div class="card-body">
-                        <i class="fas fa-flask fa-3x"></i>
-                        <h5>Laboratories</h5>
-                        <p>Modern laboratories equipped with latest equipment for practical training and research.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="facility-card">
-                    <div class="card-body">
-                        <i class="fas fa-laptop fa-3x"></i>
-                        <h5>Computer Lab</h5>
-                        <p>Computer lab with latest technology and software for digital learning.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="facility-card">
-                    <div class="card-body">
-                        <i class="fas fa-heartbeat fa-3x"></i>
-                        <h5>Clinical Training</h5>
-                        <p>Clinical training facilities with simulation labs for hands-on experience.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="facility-card">
-                    <div class="card-body">
-                        <i class="fas fa-chalkboard-teacher fa-3x"></i>
-                        <h5>Smart Classrooms</h5>
-                        <p>Air-conditioned smart classrooms with multimedia facilities for interactive learning.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="facility-card">
-                    <div class="card-body">
-                        <i class="fas fa-ambulance fa-3x"></i>
-                        <h5>Emergency Training</h5>
-                        <p>Emergency care training facilities with mannequins and simulation equipment.</p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @else
+        <div class="text-center py-5">
+            <i class="fas fa-building fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">No facilities information available yet.</h4>
+            <p class="text-muted">Check back soon for updates!</p>
+        </div>
+        @endif
     </div>
 </section>
 

@@ -123,6 +123,35 @@
         font-weight: 500;
     }
 
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 10px;
+        padding: 12px 40px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid var(--secondary-color);
+        color: var(--secondary-color);
+        border-radius: 10px;
+        padding: 12px 40px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-secondary:hover {
+        background: var(--secondary-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
     .campus-life-section {
         background: linear-gradient(135deg, #f8f9fa, #e9ecef);
         padding: 4rem 0;
@@ -276,166 +305,121 @@
 <section class="py-5">
     <div class="container">
         <h2 class="section-title">Photo Gallery</h2>
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mb-4">
+        
+        @if($galleries->count() > 0)
+        <div class="row" id="galleryContainer">
+            @foreach($galleries as $index => $gallery)
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-index="{{ $index }}" style="{{ $index >= 6 ? 'display: none;' : '' }}">
                 <div class="gallery-card">
-                    <img src="{{ asset('images/college-campus.jpg') }}" class="card-img-top" alt="College Campus" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal1">
+                    <img src="{{ asset('storage/' . $gallery->image) }}" 
+                         class="card-img-top" 
+                         alt="{{ $gallery->title }}" 
+                         style="height: 250px; object-fit: cover; cursor: pointer;" 
+                         data-bs-toggle="modal" 
+                         data-bs-target="#galleryModal{{ $gallery->id }}">
                     <div class="card-body">
-                        <h5>Modern Campus</h5>
-                        <p>State-of-the-art facilities for quality education and training.</p>
-                        <span class="badge">Campus</span>
+                        <h5>{{ $gallery->title }}</h5>
+                        <p>{{ Str::limit($gallery->description, 80) }}</p>
+                        <span class="badge">{{ ucfirst($gallery->category) }}</span>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{{ asset('images/medical-lab.jpg') }}" class="card-img-top" alt="Medical Laboratory" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal2">
-                    <div class="card-body">
-                        <h5>Medical Laboratory</h5>
-                        <p>Well-equipped laboratories for practical training and research.</p>
-                        <span class="badge">Facilities</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{{ asset('images/clinical-training.jpg') }}" class="card-img-top" alt="Clinical Training" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal3">
-                    <div class="card-body">
-                        <h5>Clinical Training</h5>
-                        <p>Hands-on clinical experience in modern healthcare settings.</p>
-                        <span class="badge">Training</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{{ asset('images/library.jpg') }}" class="card-img-top" alt="College Library" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal4">
-                    <div class="card-body">
-                        <h5>College Library</h5>
-                        <p>Extensive collection of medical and nursing resources.</p>
-                        <span class="badge">Library</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{{ asset('images/nursing-student.jpg') }}" class="card-img-top" alt="Nursing Students" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal5">
-                    <div class="card-body">
-                        <h5>Student Life</h5>
-                        <p>Active student community with various activities and events.</p>
-                        <span class="badge">Students</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{{ asset('images/medical-lab.jpg') }}" class="card-img-top" alt="Healthcare Training" style="height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#galleryModal6">
-                    <div class="card-body">
-                        <h5>Healthcare Training</h5>
-                        <p>Professional training for future healthcare providers.</p>
-                        <span class="badge">Healthcare</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+
+        @if($galleries->count() > 6)
+        <div class="text-center mt-4">
+            <button id="loadMoreBtn" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-images me-2"></i>Load More
+            </button>
+            <button id="showLessBtn" class="btn btn-outline-secondary btn-lg px-5" style="display: none;">
+                <i class="fas fa-chevron-up me-2"></i>Show Less
+            </button>
+        </div>
+        @endif
 
         <!-- Modals -->
-        <div class="modal fade" id="galleryModal1" tabindex="-1">
+        @foreach($galleries as $gallery)
+        <div class="modal fade" id="galleryModal{{ $gallery->id }}" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modern Campus</h5>
+                        <h5 class="modal-title">{{ $gallery->title }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <img src="{{ asset('images/college-campus.jpg') }}" class="img-fluid" alt="College Campus">
-                        <p class="mt-3">Our modern campus provides state-of-the-art facilities for quality education and training in nursing and allied health sciences.</p>
+                        <img src="{{ asset('storage/' . $gallery->image) }}" class="img-fluid" alt="{{ $gallery->title }}">
+                        @if($gallery->description)
+                        <p class="mt-3">{{ $gallery->description }}</p>
+                        @endif
+                        <div class="mt-3">
+                            <span class="badge">{{ ucfirst($gallery->category) }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="galleryModal2" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Medical Laboratory</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('images/medical-lab.jpg') }}" class="img-fluid" alt="Medical Laboratory">
-                        <p class="mt-3">Well-equipped laboratories with latest equipment for practical training and research in medical sciences.</p>
-                    </div>
-                </div>
-            </div>
+        @endforeach
+        @else
+        <div class="text-center py-5">
+            <i class="fas fa-images fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">No gallery items available yet.</h4>
+            <p class="text-muted">Check back soon for updates!</p>
         </div>
-
-        <div class="modal fade" id="galleryModal3" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Clinical Training</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('images/clinical-training.jpg') }}" class="img-fluid" alt="Clinical Training">
-                        <p class="mt-3">Hands-on clinical experience in modern healthcare settings to prepare students for real-world nursing practice.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="galleryModal4" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">College Library</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('images/library.jpg') }}" class="img-fluid" alt="College Library">
-                        <p class="mt-3">Extensive collection of medical and nursing resources including books, journals, and digital materials.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="galleryModal5" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Student Life</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('images/nursing-student.jpg') }}" class="img-fluid" alt="Nursing Students">
-                        <p class="mt-3">Active student community with various activities, events, and opportunities for professional development.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="galleryModal6" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Healthcare Training</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('images/medical-lab.jpg') }}" class="img-fluid" alt="Healthcare Training">
-                        <p class="mt-3">Professional training programs designed to prepare future healthcare providers with the skills and knowledge needed for success.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const showLessBtn = document.getElementById('showLessBtn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    let currentlyShown = 6;
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            galleryItems.forEach((item, index) => {
+                if (index < currentlyShown + 6) {
+                    item.style.display = 'block';
+                }
+            });
+            currentlyShown += 6;
+            
+            if (currentlyShown >= galleryItems.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+            
+            showLessBtn.style.display = 'inline-block';
+            
+            // Smooth scroll to new items
+            window.scrollBy({
+                top: 300,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    if (showLessBtn) {
+        showLessBtn.addEventListener('click', function() {
+            galleryItems.forEach((item, index) => {
+                if (index >= 6) {
+                    item.style.display = 'none';
+                }
+            });
+            currentlyShown = 6;
+            loadMoreBtn.style.display = 'inline-block';
+            showLessBtn.style.display = 'none';
+            
+            // Scroll to gallery section
+            document.querySelector('#galleryContainer').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    }
+});
+</script>
 
 <!-- Campus Life Section -->
 <section class="campus-life-section">

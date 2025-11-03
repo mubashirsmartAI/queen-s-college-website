@@ -18,4 +18,10 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         return view('courses.show', compact('course'));
     }
+
+    public function feeStructure()
+    {
+        $courses = Course::where('is_active', true)->orderBy('id')->get();
+        return view('fee-structure', compact('courses'));
+    }
 }
