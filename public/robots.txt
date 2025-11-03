@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: http://127.0.0.1:8000/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /bootstrap/
+Disallow: /config/
+Disallow: /database/
+Disallow: /resources/
+Disallow: /routes/
+Disallow: /tests/
+Disallow: /app/
+Disallow: /artisan
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /package.json
+Disallow: /phpunit.xml
+Disallow: /vite.config.js
+Disallow: /webpack.mix.js
+Disallow: /yarn.lock
+Disallow: /package-lock.json
+Disallow: /.env
+Disallow: /.env.example
+Disallow: /.git/
+Disallow: /.gitignore
+Disallow: /.htaccess
+Disallow: /README.md
